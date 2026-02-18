@@ -81,4 +81,56 @@ class EventType(str, Enum):
 class Event:
     event_type: EventType
     ts_event: datetime
+    # Automatically generate a unique ID for each event.
+    # `default_factory` ensures a new UUID is created every time
+    # an Event instance is constructed (not just once at import time).
+    # `.hex` converts the UUID to a clean string without dashes.
     event_id: str = field(default_factory=lambda: uuid4().hex)
+    seq: Optional[int] = None
+    metadata: Dict[str, Any] = field(default_factory=dict)
+
+
+# Classes
+class SignalAction(str, Enum):
+    BUY = "BUY"
+    SELL = "SELL"
+    HOLD = "HOLD"
+
+
+class OrderSide(str, Enum):
+    BUY = "BUY"
+    SELL = "SELL"
+
+
+class OrderType(str, Enum):
+    MARKET = "MARKET"
+    LIMIT = "LIMIT"
+
+
+class OrderIntent(str, Enum):
+    CREATE = "CREATE"
+    MODIFY = "MODIFY"
+    CANCEL = "CANCEL"
+
+class RiskSeverity(str, Enum):
+    INFO = "INFO"
+    WARN = "WARN"
+    BREACH = "BREACH"
+
+class RiskAction(str, Enum):
+    NONE = "NONE"
+    REDUCE = "REDUCE"
+    HALT = "HALT"
+    CANCEL_ORDERS = "CANCEL_ORDERS"
+
+class CorporateActionType(str, Enum):
+    SPLIT = "SPLIT"
+    DIVIDEND = "DIVIDEND"
+    MERGER = "MERGER"
+    SPINOFF = "SPINOFF"
+
+class LatencyStage(str, Enum):
+    DATA = "DATA"
+    SIGNAL = "SIGNAL"
+    ORDER = "ORDER"
+    FILL = "FILL"
